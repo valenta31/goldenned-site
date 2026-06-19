@@ -1,0 +1,1187 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>GoldenNed — Загородная недвижимость в Иркутском районе</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --gold: #C9A850;
+      --gold-light: #E2C97E;
+      --gold-dark: #A88830;
+      --black: #0A0A0A;
+      --dark: #111111;
+      --dark-2: #181818;
+      --dark-card: #1E1E1E;
+      --dark-border: #2A2A2A;
+      --white: #FFFFFF;
+      --gray: #888888;
+      --gray-light: #BBBBBB;
+      --radius: 12px;
+      --transition: 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background: var(--dark);
+      color: var(--white);
+      line-height: 1.6;
+      overflow-x: hidden;
+    }
+
+    /* ── UTILS ── */
+    .container { max-width: 1200px; margin: 0 auto; padding: 0 24px; }
+    .section { padding: 100px 0; }
+    .section-label {
+      display: inline-flex; align-items: center; gap: 10px;
+      font-size: 13px; font-weight: 600; letter-spacing: 2.5px;
+      text-transform: uppercase; color: var(--gold); margin-bottom: 16px;
+    }
+    .section-label::before {
+      content: ''; display: block; width: 32px; height: 2px; background: var(--gold);
+    }
+    .section-title {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(32px, 4vw, 52px);
+      font-weight: 700; line-height: 1.15;
+      color: var(--white); margin-bottom: 20px;
+    }
+    .section-title span { color: var(--gold); }
+    .section-desc { font-size: 17px; color: var(--gray-light); max-width: 560px; }
+
+    .btn {
+      display: inline-flex; align-items: center; gap: 10px;
+      padding: 16px 32px; border-radius: 6px;
+      font-family: 'Inter', sans-serif; font-size: 15px; font-weight: 600;
+      text-decoration: none; border: none; cursor: pointer;
+      transition: var(--transition); letter-spacing: 0.3px;
+    }
+    .btn-gold {
+      background: var(--gold); color: var(--black);
+    }
+    .btn-gold:hover { background: var(--gold-light); transform: translateY(-2px); box-shadow: 0 12px 32px rgba(201, 168, 80, 0.35); }
+    .btn-outline {
+      background: transparent; color: var(--white);
+      border: 1.5px solid rgba(255,255,255,0.25);
+    }
+    .btn-outline:hover { border-color: var(--gold); color: var(--gold); transform: translateY(-2px); }
+
+    /* ── NAV ── */
+    nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 1000;
+      transition: var(--transition);
+      padding: 22px 0;
+    }
+    nav.scrolled {
+      background: rgba(10,10,10,0.96);
+      backdrop-filter: blur(20px);
+      padding: 14px 0;
+      border-bottom: 1px solid var(--dark-border);
+      box-shadow: 0 4px 40px rgba(0,0,0,0.4);
+    }
+    .nav-inner {
+      display: flex; align-items: center; justify-content: space-between;
+    }
+    .nav-logo {
+      font-family: 'Playfair Display', serif;
+      font-size: 22px; font-weight: 700; color: var(--white);
+      text-decoration: none; letter-spacing: 0.5px;
+    }
+    .nav-logo span { color: var(--gold); }
+    .nav-links {
+      display: flex; align-items: center; gap: 36px; list-style: none;
+    }
+    .nav-links a {
+      color: var(--gray-light); text-decoration: none;
+      font-size: 14px; font-weight: 500;
+      transition: color 0.2s;
+    }
+    .nav-links a:hover { color: var(--gold); }
+    .nav-cta { display: flex; align-items: center; gap: 12px; }
+    .nav-phone {
+      font-size: 14px; font-weight: 600; color: var(--white);
+      text-decoration: none; transition: color 0.2s;
+    }
+    .nav-phone:hover { color: var(--gold); }
+    .burger {
+      display: none; background: none; border: none;
+      color: var(--white); font-size: 22px; cursor: pointer;
+    }
+
+    /* ── HERO ── */
+    #hero {
+      min-height: 100vh;
+      background:
+        linear-gradient(to bottom, rgba(10,10,10,0.55) 0%, rgba(10,10,10,0.75) 60%, var(--dark) 100%),
+        url('https://images.unsplash.com/photo-1568605114967-8130f3a36994?w=1800&q=80') center/cover no-repeat;
+      display: flex; align-items: center;
+      padding: 120px 0 80px;
+    }
+    .hero-badge {
+      display: inline-flex; align-items: center; gap: 8px;
+      background: rgba(201,168,80,0.12); border: 1px solid rgba(201,168,80,0.3);
+      color: var(--gold); font-size: 13px; font-weight: 600;
+      padding: 8px 16px; border-radius: 100px;
+      margin-bottom: 28px; letter-spacing: 0.5px;
+    }
+    .hero-badge i { font-size: 11px; }
+    .hero-title {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(40px, 6vw, 76px);
+      font-weight: 700; line-height: 1.1;
+      margin-bottom: 24px;
+    }
+    .hero-title span { color: var(--gold); }
+    .hero-desc {
+      font-size: 18px; color: var(--gray-light);
+      max-width: 580px; margin-bottom: 40px; line-height: 1.7;
+    }
+    .hero-btns { display: flex; gap: 16px; flex-wrap: wrap; margin-bottom: 60px; }
+    .hero-tags {
+      display: flex; gap: 12px; flex-wrap: wrap;
+    }
+    .hero-tag {
+      display: flex; align-items: center; gap: 8px;
+      font-size: 13px; color: var(--gray-light);
+    }
+    .hero-tag i { color: var(--gold); font-size: 12px; }
+
+    /* ── STATS ── */
+    #stats {
+      background: var(--dark-2);
+      border-top: 1px solid var(--dark-border);
+      border-bottom: 1px solid var(--dark-border);
+      padding: 60px 0;
+    }
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 0;
+    }
+    .stat-item {
+      text-align: center;
+      padding: 32px 20px;
+      border-right: 1px solid var(--dark-border);
+      position: relative;
+    }
+    .stat-item:last-child { border-right: none; }
+    .stat-num {
+      font-family: 'Playfair Display', serif;
+      font-size: 52px; font-weight: 700;
+      color: var(--gold); line-height: 1;
+      margin-bottom: 8px;
+    }
+    .stat-label {
+      font-size: 14px; color: var(--gray); font-weight: 500;
+    }
+
+    /* ── SERVICES ── */
+    #services { background: var(--dark); }
+    .services-header {
+      display: flex; justify-content: space-between; align-items: flex-end;
+      margin-bottom: 56px; gap: 32px; flex-wrap: wrap;
+    }
+    .services-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 24px;
+    }
+    .service-card {
+      background: var(--dark-card);
+      border: 1px solid var(--dark-border);
+      border-radius: var(--radius);
+      padding: 40px 36px;
+      transition: var(--transition);
+      position: relative;
+      overflow: hidden;
+    }
+    .service-card::before {
+      content: '';
+      position: absolute; top: 0; left: 0; right: 0;
+      height: 3px;
+      background: linear-gradient(90deg, var(--gold-dark), var(--gold-light));
+      transform: scaleX(0);
+      transform-origin: left;
+      transition: var(--transition);
+    }
+    .service-card:hover::before { transform: scaleX(1); }
+    .service-card:hover {
+      border-color: rgba(201,168,80,0.25);
+      transform: translateY(-4px);
+      box-shadow: 0 20px 60px rgba(0,0,0,0.4);
+    }
+    .service-icon {
+      width: 56px; height: 56px;
+      background: rgba(201,168,80,0.1);
+      border-radius: 12px;
+      display: flex; align-items: center; justify-content: center;
+      margin-bottom: 24px;
+      font-size: 22px; color: var(--gold);
+    }
+    .service-title {
+      font-family: 'Playfair Display', serif;
+      font-size: 20px; font-weight: 600;
+      margin-bottom: 12px; color: var(--white);
+    }
+    .service-desc { font-size: 14px; color: var(--gray); line-height: 1.7; }
+
+    /* ── OBJECTS ── */
+    #objects { background: var(--dark-2); }
+    .objects-header {
+      display: flex; justify-content: space-between; align-items: flex-end;
+      margin-bottom: 48px; gap: 24px; flex-wrap: wrap;
+    }
+    .objects-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 24px;
+    }
+    .object-card {
+      background: var(--dark-card);
+      border: 1px solid var(--dark-border);
+      border-radius: var(--radius);
+      overflow: hidden;
+      transition: var(--transition);
+    }
+    .object-card:hover {
+      transform: translateY(-6px);
+      box-shadow: 0 24px 60px rgba(0,0,0,0.5);
+      border-color: rgba(201,168,80,0.2);
+    }
+    .object-img {
+      height: 220px; overflow: hidden; position: relative;
+      background: var(--dark-border);
+    }
+    .object-img img {
+      width: 100%; height: 100%; object-fit: cover;
+      transition: transform 0.6s ease;
+    }
+    .object-card:hover .object-img img { transform: scale(1.06); }
+    .object-badge {
+      position: absolute; top: 16px; left: 16px;
+      background: rgba(10,10,10,0.85); color: var(--gold);
+      font-size: 12px; font-weight: 600;
+      padding: 6px 12px; border-radius: 6px;
+      border: 1px solid rgba(201,168,80,0.3);
+      backdrop-filter: blur(8px);
+    }
+    .object-body { padding: 28px; }
+    .object-location {
+      display: flex; align-items: center; gap: 6px;
+      font-size: 12px; color: var(--gold); font-weight: 600;
+      text-transform: uppercase; letter-spacing: 1px;
+      margin-bottom: 10px;
+    }
+    .object-name {
+      font-family: 'Playfair Display', serif;
+      font-size: 19px; font-weight: 600;
+      color: var(--white); margin-bottom: 16px;
+      line-height: 1.3;
+    }
+    .object-features {
+      display: flex; gap: 16px; margin-bottom: 20px; flex-wrap: wrap;
+    }
+    .object-feat {
+      display: flex; align-items: center; gap: 6px;
+      font-size: 13px; color: var(--gray-light);
+    }
+    .object-feat i { color: var(--gold); font-size: 12px; }
+    .object-footer {
+      display: flex; align-items: center; justify-content: space-between;
+      padding-top: 20px;
+      border-top: 1px solid var(--dark-border);
+    }
+    .object-price {
+      font-family: 'Playfair Display', serif;
+      font-size: 22px; font-weight: 700; color: var(--gold);
+    }
+    .object-link {
+      font-size: 13px; font-weight: 600; color: var(--white);
+      text-decoration: none; display: flex; align-items: center; gap: 6px;
+      transition: color 0.2s;
+    }
+    .object-link:hover { color: var(--gold); }
+    .object-placeholder {
+      width: 100%; height: 100%;
+      display: flex; align-items: center; justify-content: center;
+      background: linear-gradient(135deg, #1a1a1a, #252525);
+      font-size: 48px; color: var(--dark-border);
+    }
+
+    /* ── WHY ── */
+    #why { background: var(--dark); }
+    .why-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 80px;
+      align-items: center;
+    }
+    .why-visual {
+      position: relative;
+    }
+    .why-card-main {
+      background: var(--dark-card);
+      border: 1px solid var(--dark-border);
+      border-radius: var(--radius);
+      padding: 40px;
+      margin-bottom: 20px;
+    }
+    .why-card-main .big-num {
+      font-family: 'Playfair Display', serif;
+      font-size: 80px; font-weight: 700; color: var(--gold);
+      line-height: 1; margin-bottom: 8px;
+    }
+    .why-card-main p { font-size: 15px; color: var(--gray-light); }
+    .why-cards-row {
+      display: grid; grid-template-columns: 1fr 1fr; gap: 20px;
+    }
+    .why-card-sm {
+      background: var(--dark-card);
+      border: 1px solid var(--dark-border);
+      border-radius: var(--radius);
+      padding: 24px;
+      text-align: center;
+    }
+    .why-card-sm .num {
+      font-family: 'Playfair Display', serif;
+      font-size: 36px; font-weight: 700; color: var(--gold);
+      margin-bottom: 6px;
+    }
+    .why-card-sm p { font-size: 13px; color: var(--gray); }
+    .why-features { list-style: none; margin-top: 36px; }
+    .why-feature {
+      display: flex; align-items: flex-start; gap: 16px;
+      padding: 18px 0;
+      border-bottom: 1px solid var(--dark-border);
+    }
+    .why-feature:first-child { padding-top: 0; }
+    .why-feature:last-child { border-bottom: none; }
+    .why-feature-icon {
+      flex-shrink: 0;
+      width: 44px; height: 44px;
+      background: rgba(201,168,80,0.1);
+      border-radius: 10px;
+      display: flex; align-items: center; justify-content: center;
+      color: var(--gold); font-size: 17px;
+    }
+    .why-feature-title {
+      font-size: 15px; font-weight: 600; color: var(--white);
+      margin-bottom: 4px;
+    }
+    .why-feature-desc { font-size: 13px; color: var(--gray); line-height: 1.6; }
+
+    /* ── PROCESS ── */
+    #process {
+      background: var(--dark-2);
+      border-top: 1px solid var(--dark-border);
+    }
+    .process-header { text-align: center; margin-bottom: 64px; }
+    .process-header .section-label { justify-content: center; }
+    .process-header .section-desc { margin: 0 auto; }
+    .process-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 0;
+      position: relative;
+    }
+    .process-grid::before {
+      content: '';
+      position: absolute;
+      top: 40px; left: 10%; right: 10%;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, var(--gold-dark), transparent);
+      z-index: 0;
+    }
+    .process-step {
+      text-align: center;
+      padding: 0 20px;
+      position: relative; z-index: 1;
+    }
+    .step-num {
+      width: 80px; height: 80px;
+      background: var(--dark-card);
+      border: 2px solid var(--gold-dark);
+      border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      margin: 0 auto 28px;
+      font-family: 'Playfair Display', serif;
+      font-size: 28px; font-weight: 700; color: var(--gold);
+      position: relative;
+      transition: var(--transition);
+    }
+    .process-step:hover .step-num {
+      background: var(--gold);
+      color: var(--black);
+      border-color: var(--gold);
+      box-shadow: 0 0 0 8px rgba(201,168,80,0.12);
+    }
+    .step-title {
+      font-size: 16px; font-weight: 600; color: var(--white);
+      margin-bottom: 10px;
+    }
+    .step-desc { font-size: 13px; color: var(--gray); line-height: 1.7; }
+
+    /* ── TESTIMONIALS ── */
+    #testimonials { background: var(--dark); }
+    .test-header { text-align: center; margin-bottom: 56px; }
+    .test-header .section-label { justify-content: center; }
+    .test-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 24px;
+    }
+    .test-card {
+      background: var(--dark-card);
+      border: 1px solid var(--dark-border);
+      border-radius: var(--radius);
+      padding: 36px;
+      transition: var(--transition);
+    }
+    .test-card:hover {
+      border-color: rgba(201,168,80,0.2);
+      transform: translateY(-3px);
+    }
+    .test-stars {
+      display: flex; gap: 4px; color: var(--gold);
+      font-size: 14px; margin-bottom: 20px;
+    }
+    .test-text {
+      font-size: 15px; color: var(--gray-light);
+      line-height: 1.7; margin-bottom: 24px;
+      font-style: italic;
+    }
+    .test-text::before { content: '\201C'; color: var(--gold); font-size: 28px; line-height: 0; vertical-align: -10px; margin-right: 4px; }
+    .test-author {
+      display: flex; align-items: center; gap: 14px;
+    }
+    .test-avatar {
+      width: 44px; height: 44px;
+      background: rgba(201,168,80,0.15);
+      border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      color: var(--gold); font-size: 16px; font-weight: 700;
+      font-family: 'Playfair Display', serif;
+    }
+    .test-name { font-size: 14px; font-weight: 600; color: var(--white); }
+    .test-role { font-size: 12px; color: var(--gray); }
+
+    /* ── CONTACTS ── */
+    #contacts {
+      background: var(--dark-2);
+      border-top: 1px solid var(--dark-border);
+    }
+    .contacts-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 80px;
+      align-items: start;
+    }
+    .contacts-info { }
+    .contact-item {
+      display: flex; align-items: flex-start; gap: 18px;
+      padding: 24px 0;
+      border-bottom: 1px solid var(--dark-border);
+    }
+    .contact-item:last-child { border-bottom: none; }
+    .contact-icon {
+      flex-shrink: 0;
+      width: 48px; height: 48px;
+      background: rgba(201,168,80,0.1);
+      border-radius: 10px;
+      display: flex; align-items: center; justify-content: center;
+      color: var(--gold); font-size: 18px;
+    }
+    .contact-label { font-size: 12px; color: var(--gray); margin-bottom: 4px; text-transform: uppercase; letter-spacing: 1px; }
+    .contact-value { font-size: 15px; color: var(--white); font-weight: 500; }
+    .contact-value a { color: var(--white); text-decoration: none; transition: color 0.2s; }
+    .contact-value a:hover { color: var(--gold); }
+    .contacts-team { }
+    .contacts-team-title {
+      font-family: 'Playfair Display', serif;
+      font-size: 22px; font-weight: 600; color: var(--white);
+      margin-bottom: 28px;
+    }
+    .team-cards { display: flex; flex-direction: column; gap: 16px; }
+    .team-card {
+      background: var(--dark-card);
+      border: 1px solid var(--dark-border);
+      border-radius: var(--radius);
+      padding: 20px 24px;
+      display: flex; align-items: center; justify-content: space-between;
+      gap: 16px;
+      transition: var(--transition);
+    }
+    .team-card:hover {
+      border-color: rgba(201,168,80,0.25);
+      transform: translateX(4px);
+    }
+    .team-avatar {
+      width: 48px; height: 48px;
+      background: rgba(201,168,80,0.1);
+      border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      color: var(--gold); font-size: 18px; font-weight: 700;
+      font-family: 'Playfair Display', serif;
+      flex-shrink: 0;
+    }
+    .team-info { flex: 1; }
+    .team-name { font-size: 15px; font-weight: 600; color: var(--white); margin-bottom: 2px; }
+    .team-role { font-size: 12px; color: var(--gray); }
+    .team-phone {
+      font-size: 14px; font-weight: 600; color: var(--gold);
+      text-decoration: none;
+      white-space: nowrap;
+    }
+    .team-phone:hover { color: var(--gold-light); }
+
+    /* ── CTA BANNER ── */
+    #cta {
+      background: linear-gradient(135deg, #0d0d0d 0%, #1a1410 50%, #0d0d0d 100%);
+      border-top: 1px solid rgba(201,168,80,0.15);
+      border-bottom: 1px solid rgba(201,168,80,0.15);
+      padding: 80px 0;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+    #cta::before {
+      content: '';
+      position: absolute;
+      top: 50%; left: 50%;
+      transform: translate(-50%, -50%);
+      width: 600px; height: 600px;
+      background: radial-gradient(circle, rgba(201,168,80,0.06) 0%, transparent 70%);
+      pointer-events: none;
+    }
+    .cta-title {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(28px, 4vw, 48px);
+      font-weight: 700; color: var(--white);
+      margin-bottom: 16px;
+    }
+    .cta-title span { color: var(--gold); }
+    .cta-desc { font-size: 17px; color: var(--gray-light); margin-bottom: 40px; }
+    .cta-btns { display: flex; gap: 16px; justify-content: center; flex-wrap: wrap; }
+
+    /* ── FOOTER ── */
+    footer {
+      background: var(--black);
+      border-top: 1px solid var(--dark-border);
+      padding: 40px 0;
+    }
+    .footer-inner {
+      display: flex; align-items: center; justify-content: space-between;
+      gap: 24px; flex-wrap: wrap;
+    }
+    .footer-logo {
+      font-family: 'Playfair Display', serif;
+      font-size: 18px; font-weight: 700; color: var(--white);
+      text-decoration: none;
+    }
+    .footer-logo span { color: var(--gold); }
+    .footer-copy { font-size: 13px; color: var(--gray); }
+    .footer-links {
+      display: flex; gap: 24px; list-style: none;
+    }
+    .footer-links a {
+      font-size: 13px; color: var(--gray);
+      text-decoration: none; transition: color 0.2s;
+    }
+    .footer-links a:hover { color: var(--gold); }
+
+    /* ── SCROLL REVEAL ── */
+    .reveal {
+      opacity: 0;
+      transform: translateY(30px);
+      transition: opacity 0.7s ease, transform 0.7s ease;
+    }
+    .reveal.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+    .reveal-delay-1 { transition-delay: 0.1s; }
+    .reveal-delay-2 { transition-delay: 0.2s; }
+    .reveal-delay-3 { transition-delay: 0.3s; }
+    .reveal-delay-4 { transition-delay: 0.4s; }
+    .reveal-delay-5 { transition-delay: 0.5s; }
+
+    /* ── MOBILE MENU ── */
+    .mobile-menu {
+      display: none;
+      position: fixed; top: 0; left: 0; right: 0; bottom: 0;
+      background: rgba(10,10,10,0.98);
+      z-index: 999;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 32px;
+    }
+    .mobile-menu.open { display: flex; }
+    .mobile-menu a {
+      font-family: 'Playfair Display', serif;
+      font-size: 28px; color: var(--white);
+      text-decoration: none;
+    }
+    .mobile-menu a:hover { color: var(--gold); }
+    .mobile-close {
+      position: absolute; top: 24px; right: 24px;
+      background: none; border: none; color: var(--white);
+      font-size: 24px; cursor: pointer;
+    }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 1024px) {
+      .services-grid { grid-template-columns: repeat(2, 1fr); }
+      .objects-grid { grid-template-columns: repeat(2, 1fr); }
+      .why-grid { grid-template-columns: 1fr; gap: 48px; }
+      .why-visual { display: none; }
+    }
+    @media (max-width: 768px) {
+      .section { padding: 64px 0; }
+      .stats-grid { grid-template-columns: repeat(2, 1fr); }
+      .stat-item:nth-child(2) { border-right: none; }
+      .stat-item:nth-child(3) { border-right: 1px solid var(--dark-border); border-top: 1px solid var(--dark-border); }
+      .stat-item:last-child { border-top: 1px solid var(--dark-border); }
+      .services-grid { grid-template-columns: 1fr; }
+      .objects-grid { grid-template-columns: 1fr; }
+      .process-grid { grid-template-columns: repeat(2, 1fr); gap: 32px; }
+      .process-grid::before { display: none; }
+      .test-grid { grid-template-columns: 1fr; }
+      .contacts-grid { grid-template-columns: 1fr; gap: 48px; }
+      .nav-links { display: none; }
+      .nav-cta .btn { display: none; }
+      .burger { display: block; }
+    }
+    @media (max-width: 480px) {
+      .stats-grid { grid-template-columns: repeat(2, 1fr); }
+      .process-grid { grid-template-columns: 1fr; }
+      .hero-btns { flex-direction: column; }
+      .cta-btns { flex-direction: column; align-items: center; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav id="navbar">
+  <div class="container">
+    <div class="nav-inner">
+      <a href="#" class="nav-logo">Golden<span>Ned</span></a>
+      <ul class="nav-links">
+        <li><a href="#services">Услуги</a></li>
+        <li><a href="#objects">Объекты</a></li>
+        <li><a href="#why">О нас</a></li>
+        <li><a href="#process">Как работаем</a></li>
+        <li><a href="#contacts">Контакты</a></li>
+      </ul>
+      <div class="nav-cta">
+        <a href="tel:+79642854061" class="nav-phone">+7 (964) 285-40-61</a>
+        <a href="#contacts" class="btn btn-gold">Связаться</a>
+      </div>
+      <button class="burger" onclick="openMenu()"><i class="fa fa-bars"></i></button>
+    </div>
+  </div>
+</nav>
+
+<!-- MOBILE MENU -->
+<div class="mobile-menu" id="mobileMenu">
+  <button class="mobile-close" onclick="closeMenu()"><i class="fa fa-times"></i></button>
+  <a href="#services" onclick="closeMenu()">Услуги</a>
+  <a href="#objects" onclick="closeMenu()">Объекты</a>
+  <a href="#why" onclick="closeMenu()">О нас</a>
+  <a href="#process" onclick="closeMenu()">Как работаем</a>
+  <a href="#contacts" onclick="closeMenu()">Контакты</a>
+  <a href="tel:+79642854061" class="btn btn-gold" style="font-size:16px;">+7 (964) 285-40-61</a>
+</div>
+
+<!-- HERO -->
+<section id="hero">
+  <div class="container">
+    <div class="hero-badge">
+      <i class="fa fa-shield-halved"></i>
+      Аккредитованный застройщик Сбербанка
+    </div>
+    <h1 class="hero-title">
+      Загородная<br>недвижимость<br><span>вашей мечты</span>
+    </h1>
+    <p class="hero-desc">
+      Продажа домов, строительство под заказ и полное сопровождение сделки
+      в Хомутово, Грановщина, Урик и Иркутском районе.
+    </p>
+    <div class="hero-btns">
+      <a href="#objects" class="btn btn-gold">
+        <i class="fa fa-home"></i> Смотреть объекты
+      </a>
+      <a href="tel:+79647465521" class="btn btn-outline">
+        <i class="fa fa-phone"></i> Позвонить нам
+      </a>
+    </div>
+    <div class="hero-tags">
+      <div class="hero-tag"><i class="fa fa-check"></i> Только реальные объекты</div>
+      <div class="hero-tag"><i class="fa fa-check"></i> Помощь с ипотекой</div>
+      <div class="hero-tag"><i class="fa fa-check"></i> Юридическое сопровождение</div>
+    </div>
+  </div>
+</section>
+
+<!-- STATS -->
+<section id="stats">
+  <div class="container">
+    <div class="stats-grid">
+      <div class="stat-item reveal">
+        <div class="stat-num">800+</div>
+        <div class="stat-label">Объектов в базе</div>
+      </div>
+      <div class="stat-item reveal reveal-delay-1">
+        <div class="stat-num">5+</div>
+        <div class="stat-label">Лет на рынке</div>
+      </div>
+      <div class="stat-item reveal reveal-delay-2">
+        <div class="stat-num">4</div>
+        <div class="stat-label">Района Иркутска</div>
+      </div>
+      <div class="stat-item reveal reveal-delay-3">
+        <div class="stat-num">98%</div>
+        <div class="stat-label">Довольных клиентов</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SERVICES -->
+<section class="section" id="services">
+  <div class="container">
+    <div class="services-header">
+      <div>
+        <div class="section-label">Наши услуги</div>
+        <h2 class="section-title">Всё для вашей<br><span>сделки</span></h2>
+      </div>
+      <p class="section-desc">Комплексное сопровождение на каждом этапе — от подбора объекта до получения ключей.</p>
+    </div>
+    <div class="services-grid">
+      <div class="service-card reveal">
+        <div class="service-icon"><i class="fa fa-house"></i></div>
+        <div class="service-title">Продажа загородной недвижимости</div>
+        <p class="service-desc">Быстро и выгодно продадим ваш дом или участок. Организуем просмотры в удобное время, привлечём реальных покупателей.</p>
+      </div>
+      <div class="service-card reveal reveal-delay-1">
+        <div class="service-icon"><i class="fa fa-helmet-safety"></i></div>
+        <div class="service-title">Строительство домов под заказ</div>
+        <p class="service-desc">Воплотим ваш проект с нуля. Разработаем индивидуальный план, построим «под ключ» и проконтролируем каждый этап.</p>
+      </div>
+      <div class="service-card reveal reveal-delay-2">
+        <div class="service-icon"><i class="fa fa-percent"></i></div>
+        <div class="service-title">Помощь в оформлении ипотеки</div>
+        <p class="service-desc">Подберём выгодные условия, поможем собрать документы и подать заявку. Сопровождаем от заявки до одобрения.</p>
+      </div>
+      <div class="service-card reveal reveal-delay-1">
+        <div class="service-icon"><i class="fa fa-chart-line"></i></div>
+        <div class="service-title">Работа с плохой кредитной историей</div>
+        <p class="service-desc">Проверим вашу КИ, найдём ошибки, проанализируем причины отказов банков и подберём рабочее решение именно для вас.</p>
+      </div>
+      <div class="service-card reveal reveal-delay-2">
+        <div class="service-icon"><i class="fa fa-file-contract"></i></div>
+        <div class="service-title">Юридическое сопровождение</div>
+        <p class="service-desc">Составим договор купли-продажи, проверим документы на объект, сопроводим сделку от первого звонка до регистрации в Росреестре.</p>
+      </div>
+      <div class="service-card reveal reveal-delay-3">
+        <div class="service-icon"><i class="fa fa-umbrella"></i></div>
+        <div class="service-title">Страхование</div>
+        <p class="service-desc">Подберём оптимальный страховой продукт для вашей сделки. Защитим имущество, жизнь и здоровье при ипотеке.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- OBJECTS -->
+<section class="section" id="objects">
+  <div class="container">
+    <div class="objects-header">
+      <div>
+        <div class="section-label">Актуальные объекты</div>
+        <h2 class="section-title">Реальные дома<br>по реальным <span>ценам</span></h2>
+      </div>
+      <a href="https://t.me/zagorodnaya_nedvizhimost38" target="_blank" class="btn btn-outline">
+        Все объекты <i class="fa fa-arrow-right"></i>
+      </a>
+    </div>
+    <div class="objects-grid">
+
+      <div class="object-card reveal">
+        <div class="object-img">
+          <div class="object-placeholder"><i class="fa fa-home"></i></div>
+          <div class="object-badge">Объект №834</div>
+        </div>
+        <div class="object-body">
+          <div class="object-location"><i class="fa fa-map-pin"></i> Урик</div>
+          <div class="object-name">Просторный дом, 4 комнаты + терраса</div>
+          <div class="object-features">
+            <div class="object-feat"><i class="fa fa-bed"></i> 4 комнаты</div>
+            <div class="object-feat"><i class="fa fa-tree"></i> 15 соток</div>
+            <div class="object-feat"><i class="fa fa-bolt"></i> 15 кВт</div>
+            <div class="object-feat"><i class="fa fa-droplet"></i> Скважина</div>
+          </div>
+          <div class="object-footer">
+            <div class="object-price">5 600 000 ₽</div>
+            <a href="https://vk.com/wall-213962224_1783" target="_blank" class="object-link">Узнать подробнее <i class="fa fa-arrow-right"></i></a>
+          </div>
+        </div>
+      </div>
+
+      <div class="object-card reveal reveal-delay-1">
+        <div class="object-img">
+          <div class="object-placeholder"><i class="fa fa-home"></i></div>
+          <div class="object-badge">Объект №833</div>
+        </div>
+        <div class="object-body">
+          <div class="object-location"><i class="fa fa-map-pin"></i> Урик</div>
+          <div class="object-name">Двухэтажный дом, свободная планировка 2 этажа</div>
+          <div class="object-features">
+            <div class="object-feat"><i class="fa fa-bed"></i> 2 ком + 2 этаж</div>
+            <div class="object-feat"><i class="fa fa-tree"></i> 10 соток</div>
+            <div class="object-feat"><i class="fa fa-layer-group"></i> Из бруса</div>
+          </div>
+          <div class="object-footer">
+            <div class="object-price">5 200 000 ₽</div>
+            <a href="https://vk.com/wall-213962224_1781" target="_blank" class="object-link">Узнать подробнее <i class="fa fa-arrow-right"></i></a>
+          </div>
+        </div>
+      </div>
+
+      <div class="object-card reveal reveal-delay-2">
+        <div class="object-img">
+          <div class="object-placeholder"><i class="fa fa-home"></i></div>
+          <div class="object-badge">Под заказ</div>
+        </div>
+        <div class="object-body">
+          <div class="object-location"><i class="fa fa-map-pin"></i> Хомутово · Грановщина · Урик</div>
+          <div class="object-name">Дом по вашему проекту, строительство под ключ</div>
+          <div class="object-features">
+            <div class="object-feat"><i class="fa fa-pencil-ruler"></i> Ваш проект</div>
+            <div class="object-feat"><i class="fa fa-clock"></i> Под ключ</div>
+            <div class="object-feat"><i class="fa fa-shield"></i> Гарантия</div>
+          </div>
+          <div class="object-footer">
+            <div class="object-price">от 2 500 000 ₽</div>
+            <a href="https://vk.com/club213962224" target="_blank" class="object-link">Обсудить <i class="fa fa-arrow-right"></i></a>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- WHY -->
+<section class="section" id="why">
+  <div class="container">
+    <div class="why-grid">
+      <div class="why-visual">
+        <div class="why-card-main reveal">
+          <div class="big-num">800+</div>
+          <p>объектов продано за время работы агентства</p>
+        </div>
+        <div class="why-cards-row">
+          <div class="why-card-sm reveal reveal-delay-1">
+            <div class="num">4</div>
+            <p>района Иркутска и области</p>
+          </div>
+          <div class="why-card-sm reveal reveal-delay-2">
+            <div class="num">Сбер</div>
+            <p>аккредитованный застройщик</p>
+          </div>
+        </div>
+      </div>
+      <div>
+        <div class="section-label">Почему выбирают нас</div>
+        <h2 class="section-title">Надёжность, которую<br>можно <span>проверить</span></h2>
+        <ul class="why-features">
+          <li class="why-feature reveal">
+            <div class="why-feature-icon"><i class="fa fa-star"></i></div>
+            <div>
+              <div class="why-feature-title">Только реальные объекты</div>
+              <div class="why-feature-desc">Никаких фейков и «приманок». Все объявления проверены — цена указана за дом и участок вместе.</div>
+            </div>
+          </li>
+          <li class="why-feature reveal reveal-delay-1">
+            <div class="why-feature-icon"><i class="fa fa-bank"></i></div>
+            <div>
+              <div class="why-feature-title">Аккредитованный застройщик Сбербанка</div>
+              <div class="why-feature-desc">Работаем с ведущими банками. Поможем получить ипотеку даже в сложных ситуациях.</div>
+            </div>
+          </li>
+          <li class="why-feature reveal reveal-delay-2">
+            <div class="why-feature-icon"><i class="fa fa-map-location-dot"></i></div>
+            <div>
+              <div class="why-feature-title">Знаем рынок изнутри</div>
+              <div class="why-feature-desc">Хорошо знаем рынок загородной недвижимости Иркутского района. Подберём лучший вариант под ваш бюджет.</div>
+            </div>
+          </li>
+          <li class="why-feature reveal reveal-delay-3">
+            <div class="why-feature-icon"><i class="fa fa-handshake"></i></div>
+            <div>
+              <div class="why-feature-title">Сопровождение от А до Я</div>
+              <div class="why-feature-desc">Берём на себя всё: от первого просмотра до регистрации сделки. Вы просто получаете ключи.</div>
+            </div>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PROCESS -->
+<section class="section" id="process">
+  <div class="container">
+    <div class="process-header">
+      <div class="section-label">Как это работает</div>
+      <h2 class="section-title">4 шага к вашему<br><span>новому дому</span></h2>
+      <p class="section-desc">Прозрачная схема работы — вы всегда знаете, что происходит на каждом этапе.</p>
+    </div>
+    <div class="process-grid">
+      <div class="process-step reveal">
+        <div class="step-num">1</div>
+        <div class="step-title">Заявка и консультация</div>
+        <p class="step-desc">Звоните или пишите — обсуждаем ваши потребности, бюджет и пожелания к дому.</p>
+      </div>
+      <div class="process-step reveal reveal-delay-1">
+        <div class="step-num">2</div>
+        <div class="step-title">Подбор объектов</div>
+        <p class="step-desc">Отбираем подходящие варианты из базы, организуем просмотры в удобное время.</p>
+      </div>
+      <div class="process-step reveal reveal-delay-2">
+        <div class="step-num">3</div>
+        <div class="step-title">Оформление и ипотека</div>
+        <p class="step-desc">Помогаем с ипотекой, проверяем документы, составляем договор купли-продажи.</p>
+      </div>
+      <div class="process-step reveal reveal-delay-3">
+        <div class="step-num">4</div>
+        <div class="step-title">Получение ключей</div>
+        <p class="step-desc">Сопровождаем до регистрации в Росреестре. Вы въезжаете в свой дом без стресса.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- TESTIMONIALS -->
+<section class="section" id="testimonials">
+  <div class="container">
+    <div class="test-header">
+      <div class="section-label">Отзывы клиентов</div>
+      <h2 class="section-title">Что говорят те,<br>кто уже <span>купил дом</span></h2>
+    </div>
+    <div class="test-grid">
+      <div class="test-card reveal">
+        <div class="test-stars">
+          <i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i>
+        </div>
+        <p class="test-text">Долго искала дом в Хомутово сама — ничего подходящего. Обратилась в GoldenNed, и уже через две недели въехала в свой дом. Ольга помогла с ипотекой, вся сделка прошла чисто и быстро.</p>
+        <div class="test-author">
+          <div class="test-avatar">М</div>
+          <div>
+            <div class="test-name">Марина К.</div>
+            <div class="test-role">Купила дом в Хомутово</div>
+          </div>
+        </div>
+      </div>
+      <div class="test-card reveal reveal-delay-1">
+        <div class="test-stars">
+          <i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i>
+        </div>
+        <p class="test-text">Банки отказывали из-за просрочек пять лет назад. Алена разобралась с историей, нашла ошибки в отчёте и помогла подать в нужный банк. Одобрили! Теперь у нас дом в Урике.</p>
+        <div class="test-author">
+          <div class="test-avatar">А</div>
+          <div>
+            <div class="test-name">Андрей В.</div>
+            <div class="test-role">Дом в Урике, ипотека</div>
+          </div>
+        </div>
+      </div>
+      <div class="test-card reveal reveal-delay-2">
+        <div class="test-stars">
+          <i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i>
+        </div>
+        <p class="test-text">Заказывали строительство дома под ключ. Всё сделали по проекту, качество отличное. На каждом этапе держали в курсе. Теперь живём в Грановщине — лучшее решение в жизни.</p>
+        <div class="test-author">
+          <div class="test-avatar">С</div>
+          <div>
+            <div class="test-name">Семья Петровых</div>
+            <div class="test-role">Строительство в Грановщине</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section id="cta">
+  <div class="container">
+    <h2 class="cta-title">Готовы найти<br><span>свой дом?</span></h2>
+    <p class="cta-desc">Звоните — бесплатно проконсультируем и подберём варианты под ваш бюджет.</p>
+    <div class="cta-btns">
+      <a href="tel:+79647465521" class="btn btn-gold">
+        <i class="fa fa-phone"></i> Позвонить Ольге
+      </a>
+      <a href="https://t.me/zagorodnaya_nedvizhimost38" target="_blank" class="btn btn-outline">
+        <i class="fab fa-telegram"></i> Написать в Telegram
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACTS -->
+<section class="section" id="contacts">
+  <div class="container">
+    <div class="contacts-grid">
+      <div class="contacts-info">
+        <div class="section-label">Контакты</div>
+        <h2 class="section-title">Свяжитесь<br><span>с нами</span></h2>
+        <div class="contact-item reveal">
+          <div class="contact-icon"><i class="fa fa-phone"></i></div>
+          <div>
+            <div class="contact-label">Основной телефон</div>
+            <div class="contact-value"><a href="tel:+79642854061">+7 (964) 285-40-61</a></div>
+          </div>
+        </div>
+        <div class="contact-item reveal reveal-delay-1">
+          <div class="contact-icon"><i class="fab fa-telegram"></i></div>
+          <div>
+            <div class="contact-label">Telegram-канал с объектами</div>
+            <div class="contact-value"><a href="https://t.me/zagorodnaya_nedvizhimost38" target="_blank">@zagorodnaya_nedvizhimost38</a></div>
+          </div>
+        </div>
+        <div class="contact-item reveal reveal-delay-2">
+          <div class="contact-icon"><i class="fa fa-map-pin"></i></div>
+          <div>
+            <div class="contact-label">Адрес офиса</div>
+            <div class="contact-value">Кудинская 46, Иркутск</div>
+          </div>
+        </div>
+        <div class="contact-item reveal reveal-delay-3">
+          <div class="contact-icon"><i class="fa fa-clock"></i></div>
+          <div>
+            <div class="contact-label">Режим работы</div>
+            <div class="contact-value">Пн–Вс, 9:00 — 20:00</div>
+          </div>
+        </div>
+      </div>
+      <div class="contacts-team">
+        <div class="contacts-team-title">Наша команда</div>
+        <div class="team-cards">
+          <div class="team-card reveal">
+            <div class="team-avatar">А</div>
+            <div class="team-info">
+              <div class="team-name">Алёна Хураськина</div>
+              <div class="team-role">Руководитель, специалист по недвижимости</div>
+            </div>
+            <a href="tel:+79642854061" class="team-phone">+7 (964) 285-40-61</a>
+          </div>
+          <div class="team-card reveal reveal-delay-1">
+            <div class="team-avatar">О</div>
+            <div class="team-info">
+              <div class="team-name">Ольга Лаченька</div>
+              <div class="team-role">Руководитель, специалист по недвижимости</div>
+            </div>
+            <a href="tel:+79647465521" class="team-phone">+7 (964) 746-55-21</a>
+          </div>
+          <div class="team-card reveal reveal-delay-2">
+            <div class="team-avatar">В</div>
+            <div class="team-info">
+              <div class="team-name">Валентина Балабанова</div>
+              <div class="team-role">Менеджер</div>
+            </div>
+            <a href="tel:+79294380092" class="team-phone">+7 (929) 438-00-92</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="container">
+    <div class="footer-inner">
+      <a href="#" class="footer-logo">Golden<span>Ned</span></a>
+      <p class="footer-copy">© 2024 ИП Хураськина Алена Мэдарисовна · ИНН 384403775092</p>
+      <ul class="footer-links">
+        <li><a href="#services">Услуги</a></li>
+        <li><a href="#objects">Объекты</a></li>
+        <li><a href="#contacts">Контакты</a></li>
+      </ul>
+    </div>
+  </div>
+</footer>
+
+<script>
+  // Nav scroll
+  const navbar = document.getElementById('navbar');
+  window.addEventListener('scroll', () => {
+    navbar.classList.toggle('scrolled', window.scrollY > 40);
+  });
+
+  // Mobile menu
+  function openMenu() { document.getElementById('mobileMenu').classList.add('open'); }
+  function closeMenu() { document.getElementById('mobileMenu').classList.remove('open'); }
+
+  // Scroll reveal
+  const reveals = document.querySelectorAll('.reveal');
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) { e.target.classList.add('visible'); }
+    });
+  }, { threshold: 0.12 });
+  reveals.forEach(el => observer.observe(el));
+
+  // Counter animation
+  function animateCounter(el, target, suffix) {
+    let start = 0;
+    const step = target / 60;
+    const timer = setInterval(() => {
+      start += step;
+      if (start >= target) { start = target; clearInterval(timer); }
+      el.textContent = Math.floor(start) + suffix;
+    }, 20);
+  }
+
+  const statsObserver = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        statsObserver.unobserve(e.target);
+        const nums = e.target.querySelectorAll('.stat-num');
+        const data = [
+          { val: 800, suffix: '+' },
+          { val: 5, suffix: '+' },
+          { val: 4, suffix: '' },
+          { val: 98, suffix: '%' },
+        ];
+        nums.forEach((el, i) => animateCounter(el, data[i].val, data[i].suffix));
+      }
+    });
+  }, { threshold: 0.5 });
+
+  const statsSection = document.getElementById('stats');
+  if (statsSection) statsObserver.observe(statsSection);
+
+  // Smooth anchor links
+  document.querySelectorAll('a[href^="#"]').forEach(a => {
+    a.addEventListener('click', e => {
+      const target = document.querySelector(a.getAttribute('href'));
+      if (target) {
+        e.preventDefault();
+        target.scrollIntoView({ behavior: 'smooth' });
+      }
+    });
+  });
+</script>
+</body>
+</html>
